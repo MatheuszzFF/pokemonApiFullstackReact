@@ -1,0 +1,1 @@
+export { PokemonApiProvider } from "./Pokemon";

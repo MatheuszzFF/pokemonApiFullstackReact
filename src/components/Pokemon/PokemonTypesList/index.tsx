@@ -1,0 +1,1 @@
+export { PokemonTypesList } from "./PokemonTypesList";
