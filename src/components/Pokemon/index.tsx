@@ -3,3 +3,4 @@ export { PokemonTypeIcon } from "./PokemonTypeIcon";
 export { PokemonTypesList } from "./PokemonTypesList";
 
 
+

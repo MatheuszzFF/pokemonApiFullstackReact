@@ -1,28 +1,40 @@
-import { ReactElement, ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { 
+  Dispatch, 
+  ReactElement, 
+  ReactNode, 
+  SetStateAction, 
+  createContext, 
+  useEffect, 
+  useState 
+} from "react"
 import { TPokemon, TStoredPokemons } from "../../types/pokemon";
 
 type TPokemonProvider = {
     homePokemons: TPokemon[], 
-    getHomePokemons: () => void;
+    getHomePokemons: (apiUrl: string) => void,
+    setSearchedString: Dispatch<SetStateAction<string>>
 }
 export const PokemonContext = createContext<TPokemonProvider>();
 
 export const PokemonApiProvider =  ({children}: {children: ReactNode | ReactElement}) => {
     const [homePokemons, setHomePokemons] = useState<TPokemon[]>([])
     const [pokeApiHomeUrl, setPokeApiHomeUrl] = useState<string>("https://pokeapi.co/api/v2/pokemon?limit=24&offset=0")
+    const [searchedString, setSearchedString] = useState<string>("")
+
+    const initialApiUrl = "https://pokeapi.co/api/v2/pokemon?limit=24&offset=0"
     const POKE_API_BASE_URL = "https://pokeapi.co/api/v2"
     const allPokemonsUrl: string = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
 
     useEffect(() => {
-        getHomePokemons();
+        getHomePokemons(pokeApiHomeUrl);
     }, [])
 
+    useEffect(() => {
+      filterPokemonsByName(searchedString)
+      console.log("useEffect")
+    }, [searchedString])
+
     async function filterPokemonsByName(value: string) {
-        console.log(value.length)
-        if(value.length === 0 )  {
-            if(pokemonMainDiv) pokemonMainDiv.textContent = ""
-            runPokemonApp(pokeApiUrl)
-        }
         if(value.length <= 3) return
 
         let pokemonResults =  await fetchData(allPokemonsUrl)
@@ -33,19 +45,15 @@ export const PokemonApiProvider =  ({children}: {children: ReactNode | ReactElem
         })
 
         let allFilteredPokemons = await Promise.all(returnAllPokemonsPromise(pokemonFiltered))
-        
-        if(pokemonMainDiv) {
-            pokemonMainDiv.textContent = "";
-        }
-        pokemonMainDiv && showPokemonsCards(pokemonMainDiv,allFilteredPokemons)
+        setHomePokemons(allFilteredPokemons)
     }
 
     function returnAllPokemonsPromise(pokemons: TPokemon[]) {
         return pokemons.map(pokemon => fetchData(pokemon.url))
     }
 
-    async function getHomePokemons() {
-        let pokemonResults =  await fetchData(pokeApiHomeUrl)
+    async function getHomePokemons(apiUrl: string) {
+        let pokemonResults =  await fetchData(apiUrl)
         let allPokemons = await Promise.all(returnAllPokemonsPromise(pokemonResults.results))
         setPokeApiHomeUrl(pokemonResults.next)
         setHomePokemons((prev) => [...prev,...allPokemons])
@@ -58,24 +66,6 @@ export const PokemonApiProvider =  ({children}: {children: ReactNode | ReactElem
         return await Promise.all(pokemonPromises)
     }
 
-    /*async function init() {
-        getHomePokemons(pokeApiUrl)
-        loadMorePokemonsBtn && loadMorePokemonsBtn.addEventListener("click", () => runPokemonApp(nextUrl))
-        filterPokemonsInput && filterPokemonsInput.addEventListener("keyup", (e) => {
-            const target = e.target as HTMLInputElement; 
-            const value = target.value;
-            value && filterPokemonsByName(value)
-        })
-        const storedPokemons = await returnPokemonList() 
-        storedPokemons.forEach((pokemon:TPokemon) => {
-            createPokemonListElement(pokemon)
-        })
-
-        updatePokemonList(createPokemonListElement)
-    }
-    */
-
-    
     async function fetchData(url:string) {
         let req = await fetch(url)
         let res = await req.json();
@@ -129,7 +119,8 @@ export const PokemonApiProvider =  ({children}: {children: ReactNode | ReactElem
     
     const contextValue: TPokemonProvider = {
         homePokemons,
-        getHomePokemons
+        getHomePokemons,
+        setSearchedString
     }
     return (
         <PokemonContext.Provider value={contextValue}>

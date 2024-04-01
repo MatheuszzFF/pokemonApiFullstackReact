@@ -1,0 +1,2 @@
+export { RightMenu } from "./RightMenu";
+

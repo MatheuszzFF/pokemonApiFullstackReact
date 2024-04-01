@@ -64,7 +64,6 @@ export const RadiusImage = styled.div<TRadiusImage>`
     background-repeat: no-repeat;
     background-position: center center;
     background-image: url(/assets/img/pokemon/types/background/background-${(props) => props.type}.svg);
-   
 
     img {
         position: relative;
@@ -72,16 +71,16 @@ export const RadiusImage = styled.div<TRadiusImage>`
         z-index: 3;
         height: 180px;
         margin-top: -30px;
+    }
 
-        &.shadow {
-            position: absolute;
-            bottom: -56px;
-            filter: brightness(0.2) blur(10px);
-            opacity: 0.9;
-            transform: rotatex(96deg);
-            width: 40%;
-            z-index: 1;
-        }
+    .shadow {
+        position: absolute;
+        bottom: -56px;
+        filter: brightness(0.2) blur(10px);
+        opacity: 0.9;
+        transform: rotatex(96deg);
+        width: 40%;
+        z-index: 1;
     }
 
 `

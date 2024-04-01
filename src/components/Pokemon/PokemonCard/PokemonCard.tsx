@@ -25,7 +25,7 @@ export const PokemonCard = function ({pokemon}:{pokemon: TPokemon}) {
                 <img className="shadow" src={image}/>
             </RadiusImage>
             <Content>
-                <h4>${name.substring(0,1).toUpperCase() + name.substring(1).replace("-", " ")}</h4>
+                <h4>{name.substring(0,1).toUpperCase() + name.substring(1).replace("-", " ")}</h4>
             </Content>
         </StyledPokemonCard>
     )

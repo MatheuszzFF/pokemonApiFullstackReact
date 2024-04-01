@@ -1,11 +1,12 @@
 
+import { useEffect, useRef, useState } from 'react'
+import { Header } from './components'
 import { PokemonApiProvider } from './contexts'
 import "./index.css"
 import { Home } from './pages/Home'
 import { ThemeProvider } from 'styled-components'
 
 const theme = {
- 
     main: {
       colors: {
         backgroundColor: "#232323",
@@ -78,10 +79,21 @@ const theme = {
 
 function App() {
 
+  const [headerHeight, setHeaderHeight] = useState<number>(0)
+  const headerRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    headerRef.current && setHeaderHeight(headerRef.current.offsetHeight);
+  })
+
   return (
     <ThemeProvider theme={theme}>
       <PokemonApiProvider>
-        <Home/> 
+        <Header 
+        refHook={headerRef}
+        headerheight={headerHeight}
+        />
+        <Home headerheight={headerHeight}/> 
       </PokemonApiProvider>
     </ThemeProvider>
 

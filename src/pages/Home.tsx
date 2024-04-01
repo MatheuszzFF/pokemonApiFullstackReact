@@ -3,11 +3,11 @@ import { Container, PokemonCard } from "../components"
 import { PokemonContext } from "../contexts/Pokemon/Pokemon"
 import { PokemonGrid, HomePage } from "./Styled"
 
-export const Home = function() {
+export const Home = function({headerheight} : {headerheight: number}) {
     const pokemonApiContext = useContext(PokemonContext)
     const { homePokemons } = pokemonApiContext
     return (
-        <HomePage>
+        <HomePage headerheight={headerheight}>
             <Container>
                 <PokemonGrid>
                     {homePokemons && (
