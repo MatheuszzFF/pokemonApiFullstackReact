@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 type TButton = {
-    theme: "primary" | "secondary"
+    theme: "primary" | "secondary",
+    center: boolean
 }
 export const StyledButton = styled.button<TButton>`
     padding: 10px 20px;
@@ -14,6 +15,8 @@ export const StyledButton = styled.button<TButton>`
     transition: .3s;
     outline: none;
     border: none;
+    display: block;
+    ${({center}) => center && `margin: 15px auto;`}
 
     &:hover {
         opacity: .6;

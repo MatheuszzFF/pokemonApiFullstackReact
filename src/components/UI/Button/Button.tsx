@@ -4,11 +4,18 @@ import { StyledButton } from "./StyledButton"
 type TButton = {
     children: ReactNode | string,
     onClick?: () => any,
-    theme: "primary" | "secondary"
+    theme: "primary" | "secondary",
+    center: boolean
 } 
-export const Button = ({children, onClick, theme}: TButton) => {
+export const Button = (props: TButton) => {
+    const {
+    children, 
+    onClick, 
+    theme,
+    center
+    } = props
     return (
-        <StyledButton onClick={onClick} theme={theme}>
+        <StyledButton onClick={onClick} theme={theme} center={center}>
             {children}
         </StyledButton>
 

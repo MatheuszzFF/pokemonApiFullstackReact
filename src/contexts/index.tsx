@@ -1,1 +1,1 @@
-export { PokemonApiProvider } from "./Pokemon";
+export { PokemonApiProvider } from './Pokemon'

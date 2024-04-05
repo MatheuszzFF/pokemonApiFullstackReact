@@ -16,6 +16,7 @@ const theme = {
     },
     pokemon: {
         homeCard: "#1E1E1E",
+        modalColor: "#363636",
         types: {
             bug: {
               color:"#92BC2C",
